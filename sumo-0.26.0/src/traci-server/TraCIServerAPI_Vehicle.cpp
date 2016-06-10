@@ -427,6 +427,13 @@ TraCIServerAPI_Vehicle::processGet(TraCIServer& server, tcpip::Storage& inputSto
                     } else {
                         tempMsg.writeString("-1");
                     }
+                } else if(paramName.compare("device.battery.maximumBatteryCapacity") == 0) {
+                    MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>(v->getDevice(typeid(MSDevice_Battery)));
+                    if(battery) {
+                        tempMsg.writeString(std::to_string(battery->getMaximumBatteryCapacity()));
+                    } else {
+                        tempMsg.writeString("-1");
+                    }
                 } else {
                     tempMsg.writeString(v->getParameter().getParameter(paramName, ""));
                 }
@@ -1352,12 +1359,18 @@ TraCIServerAPI_Vehicle::processSet(TraCIServer& server, tcpip::Storage& inputSto
             if (!server.readTypeCheckingString(inputStorage, value)) {
                 return server.writeErrorStatusCmd(CMD_SET_VEHICLE_VARIABLE, "The value of the parameter must be given as a string.", outputStorage);
             }
-
+                
             if(name.compare("device.battery.actualBatteryCapacity") == 0) {
                 MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>(v->getDevice(typeid(MSDevice_Battery)));
                 if(battery) {
-                    SUMOReal temp = ::atof(value.c_str());
+                    const SUMOReal temp = ::atof(value.c_str());
                     battery->setActualBatteryCapacity(temp);
+                }
+            } else if(name.compare("device.battery.maximumBatteryCapacity") == 0) {
+                MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>(v->getDevice(typeid(MSDevice_Battery)));
+                if(battery) {
+                    SUMOReal temp = ::atof(value.c_str());
+                    battery->setMaximumBatteryCapacity(temp);
                 }
             } else {
                 ((SUMOVehicleParameter&) v->getParameter()).addParameter(name, value);

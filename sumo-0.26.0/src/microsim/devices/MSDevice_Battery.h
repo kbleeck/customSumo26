@@ -216,10 +216,10 @@ public:
     // SET FUNCTIONS
 
     /// @brief Set parameter 01, The actual vehicles' Battery Capacity in kWh
-    inline void setActualBatteryCapacity(const SUMOReal new_ActBatKap);
+    void setActualBatteryCapacity(const SUMOReal new_ActBatKap);
 
     /// @brief Set parameter 02, The total vehicles' Battery Capacity in kWh
-    inline void setMaximumBatteryCapacity(const SUMOReal new_MaxBatKap);
+    void setMaximumBatteryCapacity(const SUMOReal new_MaxBatKap);
 
     /// @brief Set parameter 03, The maximum power when accelerating
     inline void setPowerMax(const SUMOReal new_Pmax);
