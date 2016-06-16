@@ -56,6 +56,8 @@
 
 #include <microsim/devices/MSDevice_Battery.h>
 
+#include <sstream>
+
 #ifdef CHECK_MEMORY_LEAKS
 #include <foreign/nvwa/debug_new.h>
 #endif // CHECK_MEMORY_LEAKS
@@ -423,14 +425,18 @@ TraCIServerAPI_Vehicle::processGet(TraCIServer& server, tcpip::Storage& inputSto
                 if(paramName.compare("device.battery.actualBatteryCapacity") == 0) {
                     MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>(v->getDevice(typeid(MSDevice_Battery)));
                     if(battery) {
-                        tempMsg.writeString(std::to_string(battery->getActualBatteryCapacity()));
+			std::ostringstream sstream;
+			sstream << battery->getActualBatteryCapacity();
+                        tempMsg.writeString(sstream.str());
                     } else {
                         tempMsg.writeString("-1");
                     }
                 } else if(paramName.compare("device.battery.maximumBatteryCapacity") == 0) {
                     MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>(v->getDevice(typeid(MSDevice_Battery)));
                     if(battery) {
-                        tempMsg.writeString(std::to_string(battery->getMaximumBatteryCapacity()));
+       			std::ostringstream sstream;
+			sstream << battery->getMaximumBatteryCapacity();
+                        tempMsg.writeString(sstream.str());
                     } else {
                         tempMsg.writeString("-1");
                     }
