@@ -882,12 +882,18 @@ MSVehicle::addStop(const SUMOVehicleParameter::Stop& stopPar, std::string& error
         } else {
             errorMsg = "Stop";
         }
-        errorMsg += " for vehicle '" + myParameter->id + "' on lane '" + stopPar.lane + "' is not downstream the current route.";
+        if (stop.edge == myRoute->end()) {
+            errorMsg += " for vehicle '" + myParameter->id + "' on lane '" + stopPar.lane + "' is not downstream the current route. #1";
+        } else if(prevStopEdge > stop.edge) {
+            errorMsg += " for vehicle '" + myParameter->id + "' on lane '" + stopPar.lane + "' is not downstream the current route. #2";
+        } else {
+            errorMsg += " for vehicle '" + myParameter->id + "' on lane '" + stopPar.lane + "' is not downstream the current route with prevStopPos = " /*+ std::to_string(prevStopPos) + ", stop.endPos = " + std::to_string(stop.endPos)*/ + " #3"; // |||
+        }
         return false;
     }
     // David.C:
-    //if (!stop.parking && (myCurrEdge == stop.edge && myState.myPos > stop.endPos - getCarFollowModel().brakeGap(myState.mySpeed))) {
-    if (myCurrEdge == stop.edge && myState.myPos > stop.endPos - getCarFollowModel().brakeGap(myState.mySpeed)) {
+    if (!stop.parking && (myCurrEdge == stop.edge && myState.myPos > stop.endPos - getCarFollowModel().brakeGap(myState.mySpeed))) {
+    //if (myCurrEdge == stop.edge && myState.myPos > stop.endPos - getCarFollowModel().brakeGap(myState.mySpeed)) {
         errorMsg = "Stop for vehicle '" + myParameter->id + "' on lane '" + stopPar.lane + "' is too close to break.";
         return false;
     }
