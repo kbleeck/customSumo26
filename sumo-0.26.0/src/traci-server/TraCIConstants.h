@@ -792,4 +792,8 @@
 #define VAR_TRACK_VEHICLE 0xa6
 
 
+
+// Addition, get electric vehicle data
+#define VAR_ELECTRIC_VEHICLE_DATA 0xf1
+
 #endif

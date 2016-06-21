@@ -425,8 +425,8 @@ TraCIServerAPI_Vehicle::processGet(TraCIServer& server, tcpip::Storage& inputSto
                 if(paramName.compare("device.battery.actualBatteryCapacity") == 0) {
                     MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>(v->getDevice(typeid(MSDevice_Battery)));
                     if(battery) {
-			std::ostringstream sstream;
-			sstream << battery->getActualBatteryCapacity();
+            			std::ostringstream sstream;
+            			sstream << battery->getActualBatteryCapacity();
                         tempMsg.writeString(sstream.str());
                     } else {
                         tempMsg.writeString("-1");
@@ -434,8 +434,8 @@ TraCIServerAPI_Vehicle::processGet(TraCIServer& server, tcpip::Storage& inputSto
                 } else if(paramName.compare("device.battery.maximumBatteryCapacity") == 0) {
                     MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>(v->getDevice(typeid(MSDevice_Battery)));
                     if(battery) {
-       			std::ostringstream sstream;
-			sstream << battery->getMaximumBatteryCapacity();
+       			        std::ostringstream sstream;
+			            sstream << battery->getMaximumBatteryCapacity();
                         tempMsg.writeString(sstream.str());
                     } else {
                         tempMsg.writeString("-1");

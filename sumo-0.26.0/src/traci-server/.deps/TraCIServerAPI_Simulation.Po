@@ -425,7 +425,9 @@ TraCIServerAPI_Simulation.o: TraCIServerAPI_Simulation.cpp \
   ../../src/microsim/traffic_lights/MSTrafficLightLogic.h \
   ../../src/utils/common/Command.h ../../src/microsim/MSLogicJunction.h \
   ../../src/microsim/MSJunction.h \
-  ../../src/microsim/traffic_lights/MSPhaseDefinition.h
+  ../../src/microsim/traffic_lights/MSPhaseDefinition.h \
+  ../../src/microsim/devices/MSDevice_Battery.h \
+  ../../src/microsim/devices/MSDevice.h
 
 ../../src/config.h:
 
@@ -1450,3 +1452,7 @@ TraCIServer.h:
 ../../src/microsim/MSJunction.h:
 
 ../../src/microsim/traffic_lights/MSPhaseDefinition.h:
+
+../../src/microsim/devices/MSDevice_Battery.h:
+
+../../src/microsim/devices/MSDevice.h:

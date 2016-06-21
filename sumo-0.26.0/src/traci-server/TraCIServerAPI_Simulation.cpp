@@ -45,6 +45,8 @@
 #include "TraCIConstants.h"
 #include "TraCIServerAPI_Simulation.h"
 
+#include <microsim/devices/MSDevice_Battery.h>
+
 #ifdef CHECK_MEMORY_LEAKS
 #include <foreign/nvwa/debug_new.h>
 #endif // CHECK_MEMORY_LEAKS
@@ -74,6 +76,7 @@ TraCIServerAPI_Simulation::processGet(TraCIServer& server, tcpip::Storage& input
             && variable != VAR_PARKING_ENDING_VEHICLES_NUMBER && variable != VAR_PARKING_ENDING_VEHICLES_IDS
             && variable != VAR_STOP_STARTING_VEHICLES_NUMBER && variable != VAR_STOP_STARTING_VEHICLES_IDS
             && variable != VAR_STOP_ENDING_VEHICLES_NUMBER && variable != VAR_STOP_ENDING_VEHICLES_IDS
+            && variable != VAR_ELECTRIC_VEHICLE_DATA
        ) {
         return server.writeErrorStatusCmd(CMD_GET_SIM_VARIABLE, "Get Simulation Variable: unsupported variable " + toHex(variable, 2) + " specified", outputStorage);
     }
@@ -199,6 +202,33 @@ TraCIServerAPI_Simulation::processGet(TraCIServer& server, tcpip::Storage& input
             tempMsg.writeInt(s->getTransportableNumber());
             break;
         }
+ /////////// /////////// /////////// /////////// /////////// ///////////    
+ /////////// /////////// /////////// /////////// /////////// ///////////     
+ /////////// /////////// /////////// /////////// /////////// ///////////     
+ /////////// /////////// /////////// /////////// /////////// ///////////        
+        case VAR_ELECTRIC_VEHICLE_DATA: {
+                std::vector<std::string> ids; // initialize vectors for ids and 
+                std::vector<std::string> batcaps; // actualBatteryCapacity values
+                MSVehicleControl& c = MSNet::getInstance()->getVehicleControl();
+                for (MSVehicleControl::constVehIt i = c.loadedVehBegin(); i != c.loadedVehEnd(); ++i) { // iterate over all vehicles
+                    MSDevice_Battery* battery = dynamic_cast<MSDevice_Battery*>((*i).second->getDevice(typeid(MSDevice_Battery)));
+                    if(battery) { // == isElectric()
+                        ids.push_back((*i).first); // add id and
+                        std::ostringstream sstream;
+                        sstream << battery->getActualBatteryCapacity();
+                        batcaps.push_back(sstream.str()); // actualBatteryCapacity
+                    }
+                }
+                tempMsg.writeUnsignedByte(TYPE_STRINGLIST);
+                tempMsg.writeStringList(ids);
+                tempMsg.writeUnsignedByte(TYPE_STRINGLIST);
+                tempMsg.writeStringList(batcaps);
+            break;
+        }
+ /////////// /////////// /////////// /////////// /////////// ///////////     
+ /////////// /////////// /////////// /////////// /////////// ///////////     
+ /////////// /////////// /////////// /////////// /////////// ///////////     
+ /////////// /////////// /////////// /////////// /////////// ///////////     
         default:
             break;
     }
