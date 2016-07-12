@@ -888,6 +888,7 @@ MSVehicle::addStop(const SUMOVehicleParameter::Stop& stopPar, std::string& error
             errorMsg += " for vehicle '" + myParameter->id + "' on lane '" + stopPar.lane + "' is not downstream the current route. #2";
         } else {
             errorMsg += " for vehicle '" + myParameter->id + "' on lane '" + stopPar.lane + "' is not downstream the current route with prevStopPos = " /*+ std::to_string(prevStopPos) + ", stop.endPos = " + std::to_string(stop.endPos)*/ + " #3"; // |||
+            return true;
         }
         return false;
     }

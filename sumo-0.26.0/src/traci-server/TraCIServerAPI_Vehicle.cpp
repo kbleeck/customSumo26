@@ -607,7 +607,7 @@ TraCIServerAPI_Vehicle::processSet(TraCIServer& server, tcpip::Storage& inputSto
                 strs << ", startPos: " << sto.startPos;
                 std::string posStr = strs.str();
                 server.writeStatusCmd(CMD_SET_VEHICLE_VARIABLE, RTYPE_ERR, "Failed to resume a non parking vehicle '" + v->getID() + "', " + posStr, outputStorage);
-                return false;
+                return true; //false;
             }
         }
         break;
