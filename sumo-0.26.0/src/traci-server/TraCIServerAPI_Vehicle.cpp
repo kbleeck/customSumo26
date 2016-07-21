@@ -599,6 +599,7 @@ TraCIServerAPI_Vehicle::processSet(TraCIServer& server, tcpip::Storage& inputSto
                 return false;
             }
             if (!static_cast<MSVehicle*>(v)->resumeFromStopping()) {
+                return true;
                 MSVehicle::Stop& sto = (static_cast<MSVehicle*>(v))->getNextStop();
                 std::ostringstream strs;
                 strs << "reached: " << sto.reached;
@@ -607,7 +608,7 @@ TraCIServerAPI_Vehicle::processSet(TraCIServer& server, tcpip::Storage& inputSto
                 strs << ", startPos: " << sto.startPos;
                 std::string posStr = strs.str();
                 server.writeStatusCmd(CMD_SET_VEHICLE_VARIABLE, RTYPE_ERR, "Failed to resume a non parking vehicle '" + v->getID() + "', " + posStr, outputStorage);
-                return true; //false;
+                //return false;
             }
         }
         break;
